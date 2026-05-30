@@ -1,0 +1,9 @@
+services:
+  airbnb-ops:
+    build: .
+    image: airbnb-ops:local
+    volumes:
+      - ./data:/app/data
+      - ./reports:/app/reports
+    command: airbnb-ops run
+    restart: unless-stopped

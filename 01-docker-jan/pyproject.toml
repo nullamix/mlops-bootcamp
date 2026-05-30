@@ -1,9 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "docker-jan"
+name = "airbnb-ops"
 version = "0.1.0"
 description = "practice_1"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
     "pandas>=3.0.3",
+    "rich>=15.0.0",
+    "typer>=0.26.4",
 ]
+
+[project.scripts]
+airbnb-ops = "airbnb_ops.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
