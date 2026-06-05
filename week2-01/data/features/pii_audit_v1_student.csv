@@ -1,0 +1,9 @@
+table,column,pii_type,decision,reason
+listing,listing_id,entity identifier,keep as entity key only,needed to define one row per listing; not a model input
+listing,host_id,identity-linking identifier,use only for joins and host-level aggregates; exclude from final dataset,links listings to a specific host identity
+host,host_pseudo_id,pseudonymous identifier,exclude from final dataset,persistent identifier that can link records to one host
+listing,license,license / registration identifier,exclude from final dataset,identity-linking administrative identifier and mostly not useful as a model feature
+review,review_id,event identifier,exclude from final dataset,raw review identifier is not a stable ML feature
+review,reviewer_id,identity-linking identifier,aggregate only; exclude raw values from final dataset,links reviews to a specific reviewer identity
+review,reviewer_pseudo_id,pseudonymous identifier,aggregate only; exclude raw values from final dataset,persistent reviewer identifier can link records across reviews
+review,raw review text,free text,do not use raw text; use only comment_len aggregate already in core.review,"free text can contain names, contact details, or other sensitive information"
