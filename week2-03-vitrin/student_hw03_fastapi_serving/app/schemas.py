@@ -6,13 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class ListingFeatures(BaseModel):
-    """One ML-ready listing feature row.
-
-    TODO:
-    - Keep extra="forbid" so leakage/audit fields fail in Swagger.
-    - Keep all HW01 model-input fields here.
-    - Do not add target/future/audit fields such as high_demand_proxy or listing_id.
-    """
+    """One ML-ready row with leakage, target, audit, and extra fields forbidden."""
 
     model_config = ConfigDict(
         extra="forbid",

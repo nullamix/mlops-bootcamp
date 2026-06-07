@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
+import logging
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, status
 
@@ -16,12 +18,22 @@ from .schemas import (
     PredictionResponse,
 )
 
+logger = logging.getLogger(__name__)
 model_service = ModelService()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    logger.info("Starting HW03 API %s from %s", config.APP_VERSION, Path(__file__).resolve())
     model_service.load()
+    if model_service.state.loaded:
+        logger.info(
+            "Loaded run %s from %s",
+            model_service.state.run_id,
+            model_service.state.tags.get("model_source", "unknown"),
+        )
+    else:
+        logger.error("Model loading failed: %s", model_service.state.error)
     yield
 
 
@@ -37,6 +49,7 @@ app = FastAPI(
 def root() -> dict:
     return {
         "message": "QBC12 Listing Availability Prediction API",
+        "version": config.APP_VERSION,
         "docs": "/docs",
         "health": "/health",
     }
@@ -44,7 +57,6 @@ def root() -> dict:
 
 @app.get("/health", response_model=HealthResponse, tags=["service"])
 def health() -> HealthResponse:
-    # TODO: this should return ok only after the model is really loaded.
     if model_service.state.loaded:
         return HealthResponse(status="ok", model_loaded=True)
     return HealthResponse(status="error", model_loaded=False, error=model_service.state.error)

@@ -28,7 +28,7 @@ Create and activate a clean environment:
 
 ```cmd
 python -m venv .venv_hw03
-.venv_hw03\Scriptsctivate.bat
+.venv_hw03\Scripts\activate.bat
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
@@ -114,3 +114,18 @@ Submit the whole folder with:
 - No working `/predict`: max 50%.
 - Accepting leakage fields: max 50%.
 - Only notebook, no FastAPI app: max 60%.
+
+## Implementation Report
+
+- Selected HW02 run ID: `d97de4e1b1334f1a8996b84d582616f6`
+- Selected run name: `v5_random_forest`
+- MLflow experiment: `qbc12_hw02_student_amirhossein_sa`
+- Decision threshold: `0.5`
+- Selection reason: this was the best clean, non-dummy run by F1 score
+  (`0.9189`), with ROC AUC `0.9613`.
+
+The selected HW02 pipeline expects the derived feature
+`has_reviews_before_cutoff`. The API does not accept this field from callers.
+It derives it internally from `total_reviews_before_cutoff`, preserving the
+closed 26-field request contract and preventing callers from injecting
+untracked model inputs.
